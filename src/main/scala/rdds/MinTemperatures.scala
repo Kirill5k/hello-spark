@@ -1,4 +1,4 @@
-package playground
+package rdds
 
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkContext
@@ -22,12 +22,10 @@ object MinTemperatures extends App {
     .filter{case(_, entryType, _) => entryType == "TMIN"}
     .map{case(id, _, temp) => (id, temp)}
     .reduceByKey(math.min)
+    .sortBy(_._2)
     .collect()
 
   minTempByStation
-    .map(_.swap)
-    .sorted
-    .map(_.swap)
     .foreach(println)
 
   sc.stop()

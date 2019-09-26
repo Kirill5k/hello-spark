@@ -1,4 +1,4 @@
-package playground
+package rdds
 
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkContext
@@ -21,9 +21,10 @@ object FriendsByAge extends App {
     .mapValues(nFriends => (nFriends, 1))
     .reduceByKey{case ((n1, p1), (n2, p2)) => (n1+n2, p1+p2)}
     .mapValues{case (n, p) => n/p}
+    .sortBy(_._2, false)
     .collect()
 
-  averageByAge.map(_.swap).sorted.reverse.map(_.swap).foreach(println)
+  averageByAge.foreach(println)
 
   sc.stop()
 }
