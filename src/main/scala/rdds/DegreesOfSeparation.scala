@@ -48,4 +48,6 @@ object DegreesOfSeparation extends App {
     val updatedColor = if (c1 == Color.BLACK || c2 == Color.BLACK) Color.BLACK else Color.WHITE
     (connections1 ++ connections2, math.min(dist1, dist2), updatedColor)
   }
+
+  sc.stop()
 }
