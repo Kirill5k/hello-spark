@@ -14,7 +14,7 @@ object FriendsByAge extends App {
   }
 
   val sc = new SparkContext("local[*]", "friends-by-age")
-  val linesRdd = sc.textFile("./data/fakefriends.csv")
+  val linesRdd = sc.textFile("data/fakefriends.csv")
 
   val averageByAge = linesRdd
     .map(parseLine)

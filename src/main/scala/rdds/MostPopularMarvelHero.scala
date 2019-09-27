@@ -9,8 +9,10 @@ object MostPopularMarvelHero extends App {
 
   val names = sc.textFile("data/Marvel-names.txt")
     .map(_.split(" ", 2))
-    .map(fields => (fields(0).toInt, fields(1)))
+    .map(fields => (fields(0).toInt, fields(1).replace("\"", "")))
+    .collectAsMap()
 
+  val namesDict = sc.broadcast(names)
   val relationshipGraph = sc.textFile("data/Marvel-graph.txt")
 
   val friendsCount = relationshipGraph
@@ -21,8 +23,9 @@ object MostPopularMarvelHero extends App {
     .collect()
 
   friendsCount
-    .map{case(id, nFriends) => (names.lookup(id).head, nFriends)}
+    .map{case(id, nFriends) => (namesDict.value(id), nFriends)}
     .foreach(println)
 
+  namesDict.destroy()
   sc.stop()
 }
