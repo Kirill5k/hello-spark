@@ -4,12 +4,24 @@ import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
 object Basics extends App {
+  System.setProperty("hadoop.home.dir", "C:/winutils/")
+
   Logger.getLogger("org").setLevel(Level.ERROR)
 
   val session = SparkSession.builder()
     .appName("Basic")
     .config("spark.master", "local[*]")
     .getOrCreate()
+
+  val firstDf = session.read
+    .format("json")
+    .option("inferSchema", "true")
+    .load("data/cars.json")
+
+  firstDf.describe().show()
+  firstDf.printSchema()
+  println(firstDf.columns.toList)
+  firstDf.head(5).foreach(println)
 
   val netflixDf = session.read
     .option("header", "true")
