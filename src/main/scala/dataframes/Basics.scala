@@ -1,7 +1,7 @@
 package dataframes
 
 import org.apache.log4j.{Level, Logger}
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types.{DoubleType, LongType, StringType, StructField, StructType}
 
 object Basics extends App {
@@ -31,6 +31,23 @@ object Basics extends App {
     .format("json")
     .option("inferSchema", "true")
     .load("data/cars.json")
+
+  val carsTuples = Seq(
+    ("chevrolet chevelle malibu",18.0,8L,307.0,130L,3504L,12.0,"1970-01-01","USA"),
+    ("buick skylark 320",15.0,8L,350.0,165L,3693L,11.5,"1970-01-01","USA")
+  )
+
+  val carsRows = Seq(
+    Row("chevrolet chevelle malibu",18.0,8L,307.0,130L,3504L,12.0,"1970-01-01","USA"),
+    Row("buick skylark 320",15.0,8L,350.0,165L,3693L,11.5,"1970-01-01","USA")
+  )
+
+  val manualCarsDfFromTuples = session.createDataFrame(carsTuples)
+
+  import session.implicits._
+  val anotherCarsDf = carsTuples.toDF()
+
+  val carsDfFromRows = session.createDataFrame(session.sparkContext.parallelize(carsRows), carsSchema)
 
   firstDf.describe().show()
   firstDf.printSchema()
