@@ -6,7 +6,6 @@ import org.apache.spark.sql.types.{DoubleType, LongType, StringType, StructField
 
 object Basics extends App {
   System.setProperty("hadoop.home.dir", "C:/winutils/")
-
   Logger.getLogger("org").setLevel(Level.ERROR)
 
   val session = SparkSession.builder()
