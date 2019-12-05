@@ -28,5 +28,6 @@ object Basics extends App {
   import session.implicits._
   println("total cars: ", carsDs.count())
   println("powerfull cars: ", carsDs.filter(_.Horsepower.getOrElse(0L) > 140).count())
-  println("average hp: ", carsDs.map(_.Horsepower.getOrElse(0L)).reduce((h1, h2) => (h1+h2)/2))
+  println("average hp: ", carsDs.map(_.Horsepower.getOrElse(0L)).reduce(_+_) / carsDs.count())
+  println("average hp:", carsDs.select(avg(col("Horsepower"))).show())
 }
