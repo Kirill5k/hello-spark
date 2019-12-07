@@ -205,3 +205,6 @@ spark-warehouse/
 
 # End of https://www.gitignore.io/api/sbt,scala,spark,intellij
 /data/stackexchange/
+spark-cluster/data/
+spark-cluster/apps/
+/classes/
