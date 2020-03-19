@@ -50,4 +50,6 @@ class Basics extends App {
       .mode(SaveMode.Overwrite)
       .saveAsTable(table)
   }
+
+  val employeesDf2 = session.read.table("employees")
 }
